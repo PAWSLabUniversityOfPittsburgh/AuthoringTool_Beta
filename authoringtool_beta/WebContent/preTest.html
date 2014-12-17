@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Authoring Tool</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<script src="js/jquery-1.9.1.js"></script>
+</head>
+<body>
+
+<script>
+		function submitQuestion() {
+			$('.glassPanel').removeClass('hidden');
+			var parArray = new Array();
+			$('#question-section input[type="text"]').each(function() {
+					var key = $( this ).attr('name');
+					var value = $( this ).val();
+					parArray.push({key: key , value: value});
+			});
+			$('#question-section input[type="checkbox"]:checked').each(function() {
+				var key = $( this ).attr('name');
+				var value = $( this ).val();
+				parArray.push({key: key , value: value});
+			});
+
+			var json = JSON.stringify(parArray);
+			json = "{\"inputs\" : "+json+"}";
+			var failed = true;
+			$.post("PreTestProcess", {arrayData:json}, function() {})
+			    .done(function(data) {
+			    	obj = JSON && JSON.parse(data) || $.parseJSON(data);
+			    	for (var i = 0; i < obj.length; i++) {
+			    		tempKey = obj[i].key;
+			    		tempKey = (tempKey.length == 1) ? '0'+tempKey : tempKey;
+			    		if (obj[i].value == "true") {
+			    			$.post("http://adapt2.sis.pitt.edu/cbum/um?app=25&act=java_pretest&sub=question_"+tempKey+"&usr=test.seq3&grp=world&sid=testworld&res=1&svc=testing", function() {});	    			
+			    		} else {
+			    			$.post("http://adapt2.sis.pitt.edu/cbum/um?app=25&act=java_pretest&sub=question_"+tempKey+"&usr=test.seq3&grp=world&sid=testworld&res=0&svc=testing", {arrayData:json}, function() {})
+			    		}
+			    	}
+			    	failed = false;
+			    })
+			    .fail(function() {
+			    	alert("Something went wrong while we were processing your pretest, please try to submit again");
+			    })
+			    .always(function() {
+			    	if (!failed) {
+			    		$.post("http://adapt2.sis.pitt.edu/aggregate/GetContentLevels?usr=test.seq3&grp=world&sid=XXYYXX2&cid=11&mod=user", function() {})
+				    		.always(function(data) {
+				    			//window.location.href = "http://adapt2.sis.pitt.edu/um-vis-dev/index.html?cid=11&data-req-other-learners=no&def-val-rep-lvl-id=p&ui-tbar-topic-size-vis=0&ui-grid-timeline-vis=0&ui-grid-grp-vis=0&ui-grid-me-grp-vis=0&ui-tbar-vis=0";
+				    			window.location.href = "http://adapt2.sis.pitt.edu/um-vis-dev/index.html?usr=test.seq3&grp=world&sid=XXYYXX2&ui-show-help=0&&cid=11";
+				    		});
+			    		//$('#question-section').html("");
+						//Open MasteryGrids
+/* 			    		$.get(".html", function (data) {
+		                }); */
+			    	}
+			    	$('.glassPanel').addClass('hidden');
+				});
+		}
+		
+		function goToMasteryGrids() {
+			window.location.href = "http://adapt2.sis.pitt.edu/um-vis-dev/index.html?usr=test.seq3&grp=world&sid=XXYY1&ui-show-help=0&&cid=11";
+		}
+	</script>
+	<style>
+		.question-box {
+			padding: 10px;
+			/* border: 1px solid gray; */
+			background: rgb(240, 240, 240);
+			margin-bottom: 20px;
+			border-radius: 10px;
+
+			border-bottom: 1px solid rgb(220, 220, 220);
+			border-right: 1px solid rgb(220, 220, 220);
+		}
+		.question-box h3 {
+			margin-top: 5px;
+		}
+		.question-box hr {
+			border: 1px solid rgb(200, 200, 200);
+		}
+		.question-box pre {
+			border-left: 4px solid #9AFF78;
+			padding: 0px 0px 0px 10px;
+			background: #FFF;
+			white-space: pre-wrap;
+			white-space: -moz-pre-wrap;
+			white-space: -o-pre-wrap;
+			font-size: 0.9em;
+		}
+		.question-box .question {
+			font-weight: bold;
+		}
+		.question-box .question code{
+			font-weight: normal;
+			font-size: 1.1em;
+		}
+		.glassPanel {
+			position: fixed;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			z-index: 5000;
+			background: rgba(255,255,255,0.8);
+		}
+		.hidden {
+			display: none;
+		}
+		.result.middle {
+			margin-bottom: 10px;
+		}
+	</style>
+
+<div id="question-section">
+<div class="glassPanel hidden"></div>
+
+<button onclick="goToMasteryGrids();">Skip PreTest</button>
+
+<div class="question-box">
+	<h3>Question 1</h3>
+	<span class="question">Consider the following code segment:</span>
+	<pre><code>
+public class MyTester {
+ public static void main(String[] args) {
+   int i = 14;
+   int j = 20;
+   int k;
+   k = j / i * 7 % 4;
+}
+	</code></pre>
+	<div class="result">
+		<span class="question">What is the final value of the variable k: </span><input type="text" name="q_1_" value="" /> 
+	</div>
+</div>
+
+<div class="question-box">
+	<h3>Question 2</h3>
+	<span class="question">Consider the following code segment:</span>
+	<pre><code>
+int myYear = 2012;
+String myText = new String("Hello, IS17!");
+int result = 0;
+
+if (myText.length() &gt; 20)
+{
+	result = 1;
+	if (myText.length() &lt; 30 &amp;&amp; myYear &gt;= 2012)
+		result += 5;
+}
+else
+	if (myYear &gt;= 2000)
+		result += 10;
+	else
+		result += 100;
+	</code></pre>
+	<div class="result">
+		<span class="question">What is the final value of the variable result: </span><input type="text" name="q_2_" />
+	</div>
+</div>
+
+<div class="question-box">
+	<h3>Question 3</h3>
+	<span class="question">Consider partial implementation of the class Rectangle:</span>
+	<pre><code>
+public class Rectangle {
+	private double x;
+	private double y;
+	private double height;
+	private double width;
+ 
+	public Rectangle(double x, double y, double height, double width) {
+		this.x = x;
+		this.y = y;
+		this.height = height;
+		this.width = width;
+	}
+	 ......
+}
+	</code></pre>
+	<span class="question">Assume, that one more method has been added to the class:</span>
+	<pre><code>
+public void magnify (int ratio) {
+	height = height * ratio;
+	width = width * ratio;
+} 
+	</code></pre>
+	<span class="question">What would be the output of the following code fragment using the new method?</span>
+	<pre><code>
+Rectangle myBox = new Rectangle(50, 40, 10, 10);
+myBox.magnify(3);
+System.out.println(myBox.getHeight());
+System.out.println(myBox.getWidth());
+	</code></pre>
+	<div class="result">
+		<span class="question">Output:</span><br/>
+		line_1: <input type="text" name="q_3_1" /><br/>
+		line_2: <input type="text" name="q_3_2" /><br/>
+		line_3: <input type="text" name="q_3_3" /><br/>
+		line_4: <input type="text" name="q_3_4" />
+	</div>
+</div>
+
+<div class="question-box">
+	<h3>Question 4</h3>
+	<span class="question">For each of the following 3 code segments, what is the final value of result?</span><br/>
+	<hr/>
+	<span class="question">Code segment 1:</span>
+	<pre><code>
+int i = 3;
+int result = 0;
+while (i &lt; 4) {
+	result = result + i;
+	i++;
+}
+	</code></pre>
+	<div class="result middle">
+		<span class="question">result: </span><input type="text" name="q_4_1" />
+	</div>
+	<hr/>
+	<span class="question">Code segment 2:</span>
+	<pre><code>
+int i = 4;
+int result = 0;
+do {
+	result = result + i;
+	i++;
+} while (i &lt; 4);
+	</code></pre>
+	<div class="result middle">
+		<span class="question">result: </span><input type="text" name="q_4_2" />
+	</div>
+	<hr/>
+	<span class="question">Code segment 3:</span>
+	<pre><code>
+int result = 0;
+for (int i = 5; i &gt; 0; i--)
+result = result + i;
+	</code></pre>
+	<div class="result">
+		<span class="question">result: </span><input type="text" name="q_4_3" />
+	</div>
+</div>
+
+
+<div class="question-box">
+	<h3>Question 5</h3>
+	<span class="question">What would be the output of the following code fragment:</span>
+	<pre><code>
+int[] data = new int[5];
+for (int i = 0; i &lt; 5; i++)
+	data[i] = i*i;
+data[2] += 1;
+
+System.out.println(data[2]);
+	</code></pre>
+	<div class="result">
+		<span class="question">Output:</span><br/>
+		line_1: <input type="text" name="q_5_1" /><br/>
+		line_2: <input type="text" name="q_5_2" /><br/>
+		line_3: <input type="text" name="q_5_3" /><br/>
+		line_4: <input type="text" name="q_5_4" />
+	</div>
+</div>
+
+
+<div class="question-box">
+	<h3>Question 6</h3>
+	<span class="question">What would be the output of the following code fragment:</span>
+	<pre><code>
+ArrayList&lt;Double&gt; list = new ArrayList&lt;Double&gt;();
+list.add(1.1);
+list.add(2.2);
+list.add(3.3);
+list.remove(0);
+for(Double d : list)
+	System.out.println(d);
+	</code></pre>
+	<div class="result">
+		<span class="question">Output:</span><br/>
+		line_1: <input type="text" name="q_6_1" /><br/>
+		line_2: <input type="text" name="q_6_2" /><br/>
+		line_3: <input type="text" name="q_6_3" /><br/>
+		line_4: <input type="text" name="q_6_4" />
+	</div>
+</div>
+
+<div class="question-box">
+	<h3>Question 7</h3>
+	<span class="question">Class <code>Rectangle</code> implements interface <code>Shape</code>, that declares method</span>
+	<pre><code>
+ public boolean contains (double x, double y)
+// Tests if the specified coordinates are inside the boundary of the Shape.
+	</code></pre>
+	<span class="question">The implementation of the method <code>contains</code> in class <code>Rectangle</code> is the following:</span>
+	<pre><code>
+public boolean contains(double x, double y) {
+	double x0 = getX();
+	double y0 = getY();
+	return (x &gt;= x0 &amp;&amp; y &gt;= y0 &amp;&amp; 
+		x &lt; x0 + getWidth() &amp;&amp; 
+		y &lt; y0 + getHeight());
+}
+	</code></pre>
+	<span class="question">What will be the output of the following code fragment:</span>
+	<pre><code>
+Shape box = new Rectangle( 0, 0, 10, 20);
+System.out.println(box.contains(50, 10));
+	</code></pre>
+	<div class="result">
+		<span class="question">Output:</span><br/>
+		line_1: <input type="text" name="q_7_1" /><br/>
+		line_2: <input type="text" name="q_7_2" /><br/>
+		line_3: <input type="text" name="q_7_3" /><br/>
+		line_4: <input type="text" name="q_7_4" />
+	</div>
+</div>
+
+<div class="question-box">
+	<h3>Question 8</h3>
+	<span class="question">Consider the fragment of Class <code>ColoredRectangle</code>:</span>
+	<pre><code>
+public class ColoredRectangle extends Rectanlge {
+	String color;
+	public ColoredRectangle(double x, double y, 
+		double h, double w, String c) {
+		super(x, y, h, w);
+		color = c;
+	}
+
+	public String getColor() {
+		return color;
+	}
+	.......
+}
+	</code></pre>
+	<span class="question">What will be the output of the following code fragment using <code>ColoredRectangle</code>:</span>
+	<pre><code>
+ColoredRectangle box = new ColoredRectangle (20, 10, 40, 30, "Blue");
+System.out.println(box.getColor());
+System.out.println(box.getHeight());
+System.out.println(box.getWidth());
+	</code></pre>
+	<div class="result">
+		<span class="question">Output:</span><br/>
+		line_1: <input type="text" name="q_8_1" /><br/>
+		line_2: <input type="text" name="q_8_2" /><br/>
+		line_3: <input type="text" name="q_8_3" /><br/>
+		line_4: <input type="text" name="q_8_4" />
+	</div>
+</div>
+
+<div class="question-box">
+	<h3>Question 9</h3>
+	<span class="question">Take into account information in questions 7 and 8.<br/>Consider the following statement:</span>
+	<pre><code>
+ColoredRectangle box = new ColoredRectangle(0, 0, 30, 50, "Green");
+	</code></pre>
+	<span class="question">Which of the following conditions return <code>false</code>:</span>
+	<div class="result">
+		<input type="checkbox" name="q_9_1" value="a" />a)	if (box instanceOf Object)<br />
+		<input type="checkbox" name="q_9_2" value="b" />b)	if (box instanceOf ColoredRectangle)<br />
+		<input type="checkbox" name="q_9_3" value="c" />c)	if (box instanceOf Point)<br />
+		<input type="checkbox" name="q_9_4" value="d" />d)	if (box instanceOf Rectangle)<br />
+		<input type="checkbox" name="q_9_5" value="e" />e)	if (box instanceOf Shape)<br />
+		<input type="checkbox" name="q_9_6" value="f" />f)	if (box instanceOf BankAccount)<br />
+		<input type="checkbox" name="q_9_7" value="g" />g)	if (box instanceOf ArrayList)<br />
+	</div>
+</div>
+
+<div class="question-box">
+	<h3>Question 10</h3>
+	<span class="question">What is the output of the following code segment?</span>
+	<pre><code>
+int a = 4 + 4;
+int b = 5 + 5;
+
+if (a != b)
+	System.out.println(" Not equal ");
+
+if (a == b)
+	System.out.println(" Equal ");
+	</code></pre>
+	<div class="result">
+		<span class="question">Output:</span><br/>
+		line_1: <input type="text" name="q_10_1" /><br/>
+		line_2: <input type="text" name="q_10_2" /><br/>
+		line_3: <input type="text" name="q_10_3" /><br/>
+		line_4: <input type="text" name="q_10_4" />
+	</div>
+</div>
+<button onclick="submitQuestion();">Submit</button>
+</div>
+	
+</body>
+</html>

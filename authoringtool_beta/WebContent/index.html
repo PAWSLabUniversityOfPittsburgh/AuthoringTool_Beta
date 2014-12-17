@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Authoring Tool</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<style>
+		.form-group a {
+			float: right;
+		}
+		.form-group.bottom {
+			margin-bottom: 0px;
+		}
+		.beta { font-size: 0.7em; vertical-align: super; }
+	</style>
+	
+	<script language="JavaScript">
+	function handleRequest() {
+		var query = window.location.search;
+		if (query.length == 0)
+		{
+			return("");
+		}
+		else {
+			var action = query.substring(query.indexOf("=") + 1, query.length);
+			var message = "<div class=\"alert alert-";
+			var centerPart = " alert-dismissible\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button>";
+		 	if(action == "LOGINFAILED") {
+				return( message + "danger" + centerPart+"Incorrect Login or Password. Please try again</div>" );
+			}
+			else if (action == "LOGINREQD") {
+				return( message + "danger" + centerPart+"You need to login to perform this operation</div>" );
+			}
+			else if (action == "LOGGEDOUT") {
+				return( message + "success" + centerPart+"You have successfully logged out</div>" );
+			}
+			else if (action == "EXPIRED") {
+				return( message + "info" + centerPart+"Session has expired. Please Login again</div>" );
+			}
+			else if (action == "PR") {
+				return( message + "success" + centerPart+"You have successfully reset your password</div>" );
+			}
+		}
+	}
+	</script>
+
+</head>
+<body>
+
+	<script type="text/javascript">
+		var msg = handleRequest();
+	    if (typeof(msg) == "undefined")
+		msg = "";
+		document.write(msg); 
+	</script><br/>
+	
+	<div class="row">
+		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+			<div class="panel panel-primary">
+			  <div class="panel-heading">
+			    <h2 class="panel-title text-center">Authoring Tool <span class="beta" id="beta" data-toggle="tooltip" data-placement="bottom" title="This is a beta version of the system which means it can still contain some bugs and inconsistent user experience. Feedback is greatly appreciated."> [beta]</span></h2>
+			  </div>
+			  <div class="panel-body">
+			  
+			  <form class="form-horizontal" role="form" name="LoginForm" id="LoginForm" method="post" action="SecurityServlet">
+			  	<input type="hidden" name="action" value="LOGIN" />
+				  <div class="form-group">
+				    <label for="Login" class="col-sm-3 control-label">Login</label>
+				    <div class="col-sm-9">
+				      <input type="text" class="form-control" id="Login" name="login" />
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="Password" class="col-sm-3 control-label">Password</label>
+				    <div class="col-sm-9">
+				      <input type="password" class="form-control" id="Password" name="password" />
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <div class="col-sm-offset-3 col-sm-9">
+				      <input type="submit" name="Submit" value="Login" class="btn btn-default"/>
+				      <input type="reset" name="Reset" value="Reset" class="btn btn-default pull-right"/>
+				    </div>
+				  </div>
+				  <div class="form-group bottom">
+				    <div class="col-sm-offset-3 col-sm-9">
+				      <a href="password_recovery.jsp">forgot my password or login</a>
+				    </div>
+				  </div>
+				</form>
+			  	
+			  </div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#Login').focus();
+			$("#Password").keypress(function(event) {
+			    if (event.which == 13) {
+			        event.preventDefault();
+			        $("form").submit();
+			    }
+			});
+			$('#beta').tooltip();
+		});
+	</script>
+</body>
+</html>
