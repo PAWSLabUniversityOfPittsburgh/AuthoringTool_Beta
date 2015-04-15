@@ -88,7 +88,7 @@ try {
 	  		<div class="form-group">
 	  			<p class="help-block<%= mobileView %>">Title:</p>
 <%
-                out.write("<textarea class=\"form-control\" rows=\"2\" name=\"Title"+cnt+"\" value=\""+rs1.getString(2)+"\" cols=\"60\" disabled>"+rs1.getString(2)+"</textarea>");
+                out.write("<textarea class=\"form-control\" rows=\"2\" name=\"Title"+cnt+"\" value=\""+rs1.getString(2)+"\" cols=\"60\" readonly>"+rs1.getString(2)+"</textarea>");
 %>
             </div>
             <div class="form-group">
