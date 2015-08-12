@@ -21,7 +21,7 @@
 			var topicTemp = document.getElementById("topic").value;
 			var titleTemp = document.getElementById("title").value;
 			var domainTemp = $('#scope option:selected').attr('domain');
-			titleTemp = titleTemp.replace(/\s+/g, '');
+			//titleTemp = titleTemp.replace(/\s+/g, '');
 			var rdfIDTemp = document.getElementById("rdfID").value;
 			rdfIDTemp = rdfIDTemp.replace(/\s+/g, '');
 			var privacyTemp = document.querySelector('input[name="privacy"]:checked');
