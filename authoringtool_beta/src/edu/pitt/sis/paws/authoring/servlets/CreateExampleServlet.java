@@ -254,7 +254,7 @@ public class CreateExampleServlet extends AbstractServlet {
 				statement2 = connection2.createStatement();
 				String pri = tempPrivacy.equals("Private")?"private":"public";
 				String c2 ="INSERT INTO ent_content (content_name,content_type,display_name,`desc`,url,domain,provider_id,visible,creation_date,creator_id,privacy,comment) VALUES "+
-				        "('"+tempRdfID+"','example','"+tempTitle+"','"+tempDescription+"','http://adapt2.sis.pitt.edu/webex/Dissection2?act="+tempRdfID+"&svc=progvis','java','webex','1', NOW(),'"+login+"','"+pri+"','')";
+				        "('"+tempRdfID+"','example','"+tempTitle+"','"+tempDescription+"','http://adapt2.sis.pitt.edu/webex/Dissection2?act="+tempRdfID+"&svc=progvis','"+tempDomain+"','webex','1', NOW(),'"+login+"','"+pri+"','')";
 				statement2.executeUpdate(c2);
 				
 				String domain = null; 
