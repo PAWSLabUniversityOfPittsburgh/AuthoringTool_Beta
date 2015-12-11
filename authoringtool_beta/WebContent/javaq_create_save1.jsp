@@ -7,6 +7,7 @@
 <%@ page import="java.sql.*" %>
 
 <%
+	
 	Connection connection = null;
 	Class.forName(this.getServletContext().getInitParameter("db.driver"));
 	connection = DriverManager.getConnection(this.getServletContext().getInitParameter("db.webexURL"),this.getServletContext().getInitParameter("db.user"),this.getServletContext().getInitParameter("db.passwd"));
@@ -17,9 +18,9 @@
             
 	try{            
 		String title1 = request.getParameter("title1");             
-		String description1 = request.getParameter("description1");      
-		String privacy1 = request.getParameter("privacy1");      
-		String domain = request.getParameter("domain"); 
+		String description1 = request.getParameter("description1");
+		String privacy1 = request.getParameter("privacy1");
+		String domain = request.getParameter("domain");
 		
 		if (title1 == null || title1.length()<1 || privacy1 == null || privacy1.length()<1 || domain == null || domain.length()<1 || domain.equals("-1")) {
 			if (!response.isCommitted()) {

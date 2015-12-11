@@ -3,67 +3,58 @@
 <%@ include file = "include/connectDB.jsp" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.List" %>
-
-<script language="javascript">
-function send_iswriting(e){
-     var key = -1 ;
-     var shift ;
-
-     key = e.keyCode ;
-     shift = e.shiftKey ;
-
-     if ( !shift && ( key == 13 ) )
-     {
-          document.form.reset() ;
-     }
-}
-</script>
 <script type="text/javascript">
-<!-- 
-function function1(obj,i){	
-	var title1 = document.fr1.title1.value;	
-	if(title1 == ""){alert("Title is missing!");}	
-	else if (!document.fr1.privacy1[0].checked && !document.fr1.privacy1[1].checked){alert("please select Privacy!");}	
-	else {   		
-		if (title1!="" && (document.fr1.privacy1[0].checked || document.fr1.privacy1[1].checked) && i==1) {obj.action="javaq_create_save1.jsp";}
-      	}
-	
-}
-
-function function2(obj,i){	
-	var title2 = document.fr1.title2.value;	
-	var quizcode = document.fr1.quizcode.value;	
-	var minvar = document.fr1.minvar.value;	
-	var maxvar = document.fr1.maxvar.value;		
-	if(title2 == ""){alert("Title is missing!");}
-	else if(quizcode == ""){alert("Quizcode is missing!");}
-	else if(minvar == ""){alert("Minimum Variable is missing!");}
-	else if(maxvar == ""){alert("Maximum Variable is missing!");}
-	else if (!document.fr1.privacy2[0].checked && !document.fr1.privacy2[1].checked){alert("please select Privacy!");}
-	else {
-		if (title2!="" && quizcode!="" && minvar!="" && maxvar!="" && (document.fr1.privacy2[0].checked || document.fr1.privacy2[1].checked) && i==2) {obj.action="javaq_create_save2.jsp";}
+	function send_iswriting(e){
+		if(!e.shiftKey && ( e.keyCode == 13 ))
+			document.form.reset();
 	}
-}   
 
-	
-function function3(obj,i){ 	
-   if (i==1) 
-   {window.open('classcombo.jsp','_blank');}
-   }
-   
-function function4(obj,i){ 
-	if(i!=0){	
-	   var sessionL = document.fr1.sessionL.value; 	   
-	   for(a=1;a<=sessionL;a++){
-		  		   						
-		   	obj.action="jquestion_create1_delete.jsp?sessionID="+i;   	
-		   
-	   }
+	function function1(obj,i){
+		var title1 = document.fr1.title1.value;
+		if(title1 == "")
+			alert("Title is missing!");
+		else if(!document.fr1.privacy1[0].checked && !document.fr1.privacy1[1].checked)
+			alert("please select Privacy!");
+		else if(title1 != "" && (document.fr1.privacy1[0].checked || document.fr1.privacy1[1].checked) && i==1)
+			obj.action="javaq_create_save1.jsp";	
 	}
-}   
-//-->
+
+	function function2(obj,i){	
+		var title2 = document.fr1.title2.value;	
+		var quizcode = document.fr1.quizcode.value;	
+		var minvar = document.fr1.minvar.value;	
+		var maxvar = document.fr1.maxvar.value;		
+
+		if(title2!="" && quizcode!="" && minvar!="" && maxvar!="" && (document.fr1.privacy2[0].checked || document.fr1.privacy2[1].checked) && i==2)
+			obj.action="javaq_create_save2.jsp";
+		else{
+			if(title2 == "")
+				alert("Title is missing!");
+			else if(quizcode == "")
+				alert("Quizcode is missing!");
+			else if(minvar == "")
+				alert("Minimum Variable is missing!");
+			else if(maxvar == "")
+				alert("Maximum Variable is missing!");
+			else if(!document.fr1.privacy2[0].checked && !document.fr1.privacy2[1].checked)
+				alert("please select Privacy!");
+		}
+	}   
+
+		
+	function function3(obj,i){ 	
+		if (i==1)
+			window.open('classcombo.jsp','_blank');
+	}
+	   
+	function function4(obj,i){ 
+		if(i!=0){
+			var sessionL = document.fr1.sessionL.value;
+			for(a=1;a<=sessionL;a++)
+				obj.action="jquestion_create1_delete.jsp?sessionID="+i;   	
+		}
+	}
 </script>
-
 <h2>QuizJET Authoring</h2>
 <form name="fr1" method="post">
 <table border="1">
@@ -105,7 +96,7 @@ function function4(obj,i){
 	<table>
 	<tr>
 		<td class="formfieldbold formfielddark"><b>Quiz:<font color="red">*</font></b>	</td>
-		<td><select name="question">
+		<td><select name="quiz">
 		<%
 			 Connection connection = null;
 		Class.forName(this.getServletContext().getInitParameter("db.driver"));
@@ -210,4 +201,3 @@ function function4(obj,i){
 </tr>
 </table>   
 </form>
-

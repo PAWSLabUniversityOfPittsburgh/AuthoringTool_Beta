@@ -400,13 +400,13 @@ if (request.getParameter("ex") != null && request.getParameter("ex").trim().leng
 	<div class="form-group">
 	    <label for="title" class="col-sm-3 control-label">Title:</label>
 	    <div class="col-sm-9">
-	    	<input type="text" name="title" disabled maxlength="45" class="form-control" id="title" value="<%= title %>"/>
+	    	<input type="text" name="title" maxlength="45" class="form-control" id="title" value="<%= title %>"/>
 	    </div>
 	</div>
 	<div class="form-group">
 	    <label for="rdfID" class="col-sm-3 control-label">RDF ID:</label>
 	    <div class="col-sm-9">
-	    	<input type="text" name="rdfID" disabled id="rdfID" class="form-control" value="<%= rdfId %>">
+	    	<input type="text" name="rdfID" id="rdfID" class="form-control" value="<%= rdfId %>">
 	    </div>
 	</div>
 	<div class="form-group">

@@ -14,6 +14,7 @@
 		} else {
 			privacyTemp = null;
 		}
+		var exampleTitle = $('#titleField').val();
 		var exampleDescription = $('#descriptionField').val();
 		if (oldDescription == exampleDescription) {
 			exampleDescription = null;
@@ -27,7 +28,7 @@
 		}
 		var allLines = JSON.stringify(lines);
 		
-		$.post("CreateExampleServlet", {commentUpdate : 'true', rdfID : oldRdfID, privacy : (privacyTemp != null ? privacyTemp : 'null'), description : (exampleDescription != null ? exampleDescription : 'null'), lines : allLines, dissectionID : disID}, function() {})
+		$.post("CreateExampleServlet", {commentUpdate : 'true', rdfID : oldRdfID, privacy : (privacyTemp != null ? privacyTemp : 'null'), title : exampleTitle, description : (exampleDescription != null ? exampleDescription : 'null'), lines : allLines, dissectionID : disID}, function() {})
 	    .done(function(data) {
 	    	if ($.trim(data) == "true") {
 				window.location.href = "authoring.jsp?type=example&message=Example updated successfully!&alert=success";
@@ -294,7 +295,7 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Title:</label>
 				<div class="col-sm-9">
-					<input readonly class="form-control" type="text" size="4" value="<%=Name%>" />
+					<input id="titleField" class="form-control" type="text" size="4" value="<%=Name%>" />
 				</div>
 			</div>
 			<div class="form-group">

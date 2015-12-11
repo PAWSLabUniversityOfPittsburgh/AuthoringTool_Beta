@@ -11,8 +11,8 @@ public class Constants {
 		public static final String UM2_URL = "jdbc:mysql://localhost:3306/um2";
 
 
-		public static final String USER = "root";
-		public static final String PASSWORD = "123456";		
+		public static final String USER = "";
+		public static final String PASSWORD = "";		
 	}
 	
 	public static final class PATH 

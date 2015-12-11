@@ -345,6 +345,7 @@ public class CreateExampleServlet extends AbstractServlet {
 			UserBean uBean = (UserBean) this.session.getAttribute("userBean"); 
 			String tempDissectionID = request.getParameter("dissectionID");
 			String tempDescription = request.getParameter("description");
+			String tempTitle =  request.getParameter("title");
 			String tempPrivacy = request.getParameter("privacy");
 			String tempLines = request.getParameter("lines");
 			String rdfID = request.getParameter("rdfID");
@@ -360,6 +361,13 @@ public class CreateExampleServlet extends AbstractServlet {
 					tempDescription = (tempDescription.length()>=255) ? tempDescription.substring(0,254) : tempDescription;
 					
 					String command = "UPDATE ent_dissection SET Description = '"+tempDescription+"' WHERE DissectionID = "+tempDissectionID+";";
+					statement.executeUpdate(command); 					
+				}
+				
+				if (tempTitle.length() > 0) {
+					tempTitle = (tempTitle.length()>=255) ? tempTitle.substring(0,254) : tempTitle;
+					
+					String command = "UPDATE ent_dissection SET Name = '"+tempTitle+"' WHERE DissectionID = "+tempDissectionID+";";
 					statement.executeUpdate(command); 					
 				}
 				

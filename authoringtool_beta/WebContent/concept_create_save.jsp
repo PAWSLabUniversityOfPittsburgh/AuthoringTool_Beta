@@ -68,10 +68,7 @@ try{
  	}
  }
 	    
-}
- 			
-
-   finally {
+}finally {
     try {
       if (statement != null)
        statement.close();
@@ -80,9 +77,5 @@ try{
        if (connection != null)
         connection.close();
        } catch (SQLException e) {}      
-   }
-
-
-
-
+}
 %>
