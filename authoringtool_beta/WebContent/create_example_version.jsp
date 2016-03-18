@@ -437,7 +437,7 @@ String mobileView = "";
 int i = 0;
 boolean notFirstButton = false;	
 
-rs = stmt.executeQuery("SELECT * FROM ent_line WHERE DissectionID = '"+request.getParameter("ex").trim()+"';");
+rs = stmt.executeQuery("SELECT * FROM ent_line WHERE DissectionID = '"+request.getParameter("ex").trim()+"' order by lineindex asc;");
 
 while(rs.next()) {
 	
